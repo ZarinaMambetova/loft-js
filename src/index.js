@@ -30,8 +30,8 @@ function returnFirstArgument(a) {
  Пример:
    sumWithDefaults(10) вернет 110
  */
-function sumWithDefaults(a, b) {
-  return a + b;
+function sumWithDefaults(a, b = 100) {
+    return a + b;
 }
 
 /*
@@ -59,14 +59,12 @@ function returnFnResult(fn) {
    console.log(f()); // выведет 12
    console.log(f()); // выведет 13
  */
-function returnCounter(a, i) {
- var a = 10;
- var i = 1;
+function returnCounter(i = 0) {
  return function F() {
-   return i++;
- }
- 
-}
+   return ++i;
+      }
+  }
+
 
 /*
  Задание 5 *:
