@@ -8,7 +8,8 @@
  */
 function forEach(array, fn) {
   var i, length = array.length;
-  for (i = 0; i < length; i = i + 1) {
+
+  for (i = 0; i < length; i++) {
     fn(array[i], i, array);
   }
 }
@@ -21,10 +22,12 @@ function forEach(array, fn) {
  */
 function map(array, fn) {
   var i, length = array.length, results = [];
-  for (i = 0; i < length; i = i + 1) {
+
+  for (i = 0; i < length; i++) {
     results.push(fn(array[i], i, array));
-   
+
   }
+
   return results;
 }
 
@@ -35,11 +38,23 @@ function map(array, fn) {
  Посмотрите как работает reduce и повторите это поведение для массива, который будет передан в параметре array
  */
 function reduce(array, fn, initial) {
-  // var i, length = array.length, result = initial;
-  // for (i = initial; i < length; i = i + 1) {
-  //   result = fn(result, array[i], i, array);
-  // }
-  // return result;
+  var i = 0, length = array.length, result;
+
+  if (initial == undefined) {
+
+    result = array[0];
+    i = 1;
+
+  } else {
+
+    result = initial;
+  }
+
+  for (i; i < length; i++) {
+    result = fn(result, array[i], i, array);
+  }
+
+  return result;
 }
 
 /*
@@ -51,12 +66,14 @@ function reduce(array, fn, initial) {
    upperProps({ name: 'Сергей', lastName: 'Петров' }) вернет ['NAME', 'LASTNAME']
  */
 function upperProps(obj) {
-  // var array = [];
-  // for (var prop in obj) {
-  //   array.push(fn(prop.toUpperCase()));
-    
-  // }
-  // return array;
+  var array = [];
+
+  for (var prop in obj) {
+    array.push(prop.toUpperCase());
+
+  }
+  
+  return array;
 }
 
 /*
@@ -78,10 +95,10 @@ function createProxy(obj) {
 }
 
 export {
-    forEach,
-    map,
-    reduce,
-    upperProps,
-    slice,
-    createProxy
+  forEach,
+  map,
+  reduce,
+  upperProps,
+  slice,
+  createProxy
 };
