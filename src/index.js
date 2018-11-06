@@ -17,7 +17,33 @@
    isAllTrue([100, 2, 3, 4, 5], n => n < 10) // вернет false
  */
 function isAllTrue(array, fn) {
+  var i, length = array.length;
+
+  for (i = 0; i < length; i++) {
+    fn(array[i], i, array);
+ 
+    if (fn(array[i]) != true) {
+      return false;
+    }
+  };
+  
+  if (typeof fn != 'function') {
+    throw new Error("fn is not a function");
+  };
+  if (array == 0) {
+    throw new Error("empty array");
+  };
+  // if (array  не массив??) ) {
+  //   throw new Error("empty array");
+  // };
+
+  return true;
 }
+
+
+
+
+
 
 /*
  Задание 2:
@@ -36,6 +62,25 @@ function isAllTrue(array, fn) {
    isSomeTrue([1, 2, 3, 4, 5], n => n > 20) // вернет false
  */
 function isSomeTrue(array, fn) {
+  var i, length = array.length;
+
+  for (i = 0; i < length; i++) {
+    fn(array[i], i, array);
+
+    if(fn(array[i]) == true) {
+      return true;
+    } else {
+      return false;
+    };
+    
+  
+  } 
+  if (typeof fn != 'function') {
+    throw new Error("fn is not a function");
+  };
+  if (array == 0) {
+    throw new Error("empty array");
+  };
 }
 
 /*
@@ -50,6 +95,19 @@ function isSomeTrue(array, fn) {
    - fn не является функцией (с текстом "fn is not a function")
  */
 function returnBadArguments(fn) {
+  for (var i = 1; i < arguments.length; i++) {
+    fn(arguments[i]);
+  }
+  if (typeof fn != 'function') {
+    throw new Error("fn is not a function");
+  };
+  // try {
+  //   fn(arguments[i]);;
+  // } catch (e) {
+  //   return array(arguments[i]);
+  // }
+
+ 
 }
 
 /*
@@ -69,14 +127,25 @@ function returnBadArguments(fn) {
    - number не является числом (с текстом "number is not a number")
    - какой-либо из аргументов div является нулем (с текстом "division by 0")
  */
-function calculator() {
+function calculator(number = 0) {
+  if (typeof number != 'number') {
+    throw new Error("number is not a number");
+}
+  // var object = {
+  //   sum: function () {
+  //     for (var i = 0; i < arguments.length; i++) {
+  //       return number + arguments[i];
+  //     }
+  //    },
+  // }
+  return object;
 }
 
 /* При решении задач, пострайтесь использовать отладчик */
 
 export {
-    isAllTrue,
-    isSomeTrue,
-    returnBadArguments,
-    calculator
+  isAllTrue,
+  isSomeTrue,
+  returnBadArguments,
+  calculator
 };
