@@ -1,3 +1,5 @@
+import { isArray } from "util";
+
 /* ДЗ 3 - работа с исключениями и отладчиком */
 
 /*
@@ -19,23 +21,20 @@
 function isAllTrue(array, fn) {
   var i, length = array.length;
 
-  for (i = 0; i < length; i++) {
-    fn(array[i], i, array);
- 
-    if (fn(array[i]) != true) {
-      return false;
-    }
+  if (!(array instanceof Array) || !length) {
+    throw new Error("empty array");
   };
-  
+
   if (typeof fn != 'function') {
     throw new Error("fn is not a function");
   };
-  if (array == 0) {
-    throw new Error("empty array");
+
+  for (i = 0; i < length; i++) {
+
+    if (!fn(array[i])) {
+      return false;
+    }
   };
-  // if (array  не массив??) ) {
-  //   throw new Error("empty array");
-  // };
 
   return true;
 }
@@ -64,23 +63,21 @@ function isAllTrue(array, fn) {
 function isSomeTrue(array, fn) {
   var i, length = array.length;
 
-  for (i = 0; i < length; i++) {
-    fn(array[i], i, array);
+  if (!(array instanceof Array) || !length) {
+    throw new Error("empty array");
+  }
 
-    if(fn(array[i]) == true) {
-      return true;
-    } else {
-      return false;
-    };
-    
-  
-  } 
   if (typeof fn != 'function') {
     throw new Error("fn is not a function");
-  };
-  if (array == 0) {
-    throw new Error("empty array");
-  };
+  }
+
+  for (i = 0; i < length; i++) {
+    if (fn(array[i])) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 /*
@@ -95,19 +92,21 @@ function isSomeTrue(array, fn) {
    - fn не является функцией (с текстом "fn is not a function")
  */
 function returnBadArguments(fn) {
-  for (var i = 1; i < arguments.length; i++) {
-    fn(arguments[i]);
-  }
+  var array = [];
+
   if (typeof fn != 'function') {
     throw new Error("fn is not a function");
-  };
-  // try {
-  //   fn(arguments[i]);;
-  // } catch (e) {
-  //   return array(arguments[i]);
-  // }
+  }
 
- 
+  for (var i = 1; i < arguments.length; i++) {
+    try {
+      fn(arguments[i]);
+    } catch (e) {
+      array.push(arguments[i]);
+    }
+  }
+
+  return array;
 }
 
 /*
@@ -130,15 +129,50 @@ function returnBadArguments(fn) {
 function calculator(number = 0) {
   if (typeof number != 'number') {
     throw new Error("number is not a number");
-}
-  // var object = {
-  //   sum: function () {
-  //     for (var i = 0; i < arguments.length; i++) {
-  //       return number + arguments[i];
-  //     }
-  //    },
-  // }
-  return object;
+  }
+  
+  return {
+    sum: function () {
+      var result = number;
+
+      for (var i = 0; i < arguments.length; i++) {
+        result += arguments[i];
+      }
+
+      return result;
+    },
+    dif: function () {
+      var result = number;
+
+      for (var i = 0; i < arguments.length; i++) {
+        result -= arguments[i];
+      }
+
+      return result;
+    },
+    div: function () {
+      var result = number;
+     
+      for (var i = 0; i < arguments.length; i++) {
+        if (arguments[i] === 0) {
+          throw new Error("division by 0");
+        } else {
+          result /= arguments[i];
+        }
+      }
+
+      return result;
+    },
+    mul: function () {
+      var result = number;
+
+      for (var i = 0; i < arguments.length; i++) {
+        result *= arguments[i];
+      }
+
+      return result;
+    }
+  }
 }
 
 /* При решении задач, пострайтесь использовать отладчик */
