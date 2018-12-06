@@ -11,6 +11,11 @@
    createDivWithText('loftschool') // создаст элемент div, поместит в него 'loftschool' и вернет созданный элемент
  */
 function createDivWithText(text) {
+  const element = document.createElement('div');
+
+  element.textContent = text;
+
+  return element;
 }
 
 /*
@@ -22,6 +27,8 @@ function createDivWithText(text) {
    prepend(document.querySelector('#one'), document.querySelector('#two')) // добавит элемент переданный первым аргументом в начало элемента переданного вторым аргументом
  */
 function prepend(what, where) {
+  where.insertBefore(what, where.firstChild);
+
 }
 
 /*
@@ -44,6 +51,16 @@ function prepend(what, where) {
    findAllPSiblings(document.body) // функция должна вернуть массив с элементами div и span т.к. следующим соседом этих элементов является элемент с тегом P
  */
 function findAllPSiblings(where) {
+  var array = [];
+  var node = where.children;
+
+  for (var i = 0; i < node.length; i++) {
+    if (node[i].nextElementSibling && node[i].nextElementSibling.tagName == 'P') {
+      array.push(node[i]);
+    }
+  };
+
+  return array;
 }
 
 /*
@@ -64,13 +81,17 @@ function findAllPSiblings(where) {
    findError(document.body) // функция должна вернуть массив с элементами 'привет' и 'loftschool'
  */
 function findError(where) {
-    var result = [];
+  var result = [];
+  var node = where.childNodes;
 
-    for (var child of where.childNodes) {
-        result.push(child.innerText);
+  for (var i = 0; i < node.length; i++) {
+    if (node[i].nodeType === 1) {
+      console.log(node[i].innerText)
+      result.push(node[i].innerText);
     }
+  }
 
-    return result;
+  return result;
 }
 
 /*
@@ -86,7 +107,15 @@ function findError(where) {
    должно быть преобразовано в <div></div><p></p>
  */
 function deleteTextNodes(where) {
+  var node = where.childNodes;
+
+  for (var i = 0; i < node.length; i++) {
+    if (node[i].nodeType === 3) {
+      where.removeChild(node[i]);
+    }
+  }
 }
+
 
 /*
  Задание 6:
@@ -101,6 +130,15 @@ function deleteTextNodes(where) {
    должно быть преобразовано в <span><div><b></b></div><p></p></span>
  */
 function deleteTextNodesRecursive(where) {
+  
+  for (let i = 0; i < where.childNodes.length; i++) {
+    if (where.childNodes[i].nodeType == 3) {
+        where.childNodes[i].remove();
+        i--;
+    } else {
+        deleteTextNodesRecursive(where.childNodes[i]);
+    }
+}
 }
 
 /*
@@ -162,12 +200,12 @@ function observeChildNodes(where, fn) {
 }
 
 export {
-    createDivWithText,
-    prepend,
-    findAllPSiblings,
-    findError,
-    deleteTextNodes,
-    deleteTextNodesRecursive,
-    collectDOMStat,
-    observeChildNodes
+  createDivWithText,
+  prepend,
+  findAllPSiblings,
+  findError,
+  deleteTextNodes,
+  deleteTextNodesRecursive,
+  collectDOMStat,
+  observeChildNodes
 };
